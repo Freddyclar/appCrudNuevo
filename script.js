@@ -59,30 +59,49 @@ document.querySelector("#student-form").addEventListener("submit", (e) =>{
             showAlert("Información del estudiante editada", "info");
         }
 
+        if (selectedRow) { // Actualizar estudiante existente si selectedRow no es null
+            const updatedFirstName = document.querySelector("#firstName").value;
+            const updatedLastName = document.querySelector("#lastName").value;
+            const updatedRollNo = document.querySelector("#rollNo").value;
+        
+            // Actualizar los datos en la fila seleccionada
+            selectedRow.children[0].textContent = updatedFirstName;
+            selectedRow.children[1].textContent = updatedLastName;
+            selectedRow.children[2].textContent = updatedRollNo;
+        
+            // Restablecer selectedRow y el texto del botón (opcional)
+            selectedRow = null;
+            document.querySelector("#student-form button").textContent = "Agregar";
+        }
+
         clearFields();
+
+        
     }
 });
 
 // Edit Data
 
 document.querySelector("#student-list").addEventListener("click", (e) => {
-target = e.target;
-if (target.classList.contains("edit")){
-    selectedRow = target.parentElent.parentElent;
-    document.querySelector("#firstName").value = selectedRow.children[0].textContent;
-    document.querySelector("#lastName").value = selectedRow.children[1].textContent;
-    document.querySelector("#rollNo").value = selectedRow.children[2].textContent;
-}
-});
+    target = e.target;
+    if (target.classList.contains("edit")) {
+      selectedRow = target.parentElement.parentElement; // Obtener la fila de la tabla
+      document.querySelector("#firstName").value = selectedRow.children[0].textContent;
+      document.querySelector("#lastName").value = selectedRow.children[1].textContent;
+      document.querySelector("#rollNo").value = selectedRow.children[2].textContent;
+  
+      
+    }
+  });
 
 
 // Delete Data 
 
-document.querySelector("#student-list").addEventListener("click", (e) =>{
-    target = e.target;
-    if(target.classList.contains("delete")){
-        target.parentElent.parentElent.remove();
-        showAlert("Student Data Deleted", "danger");
+document.querySelector("#student-list").addEventListener("click", (e) => {
+    const target = e.target;
+    if (target.classList.contains("delete") && target.parentElement) {
+      target.parentElement.parentElement.remove(); // Eliminar solo si parentElement existe
+      showAlert("Información del estudiante eliminada", "danger");
     }
-});
-
+  });
+  
